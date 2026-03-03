@@ -1,0 +1,5 @@
+{
+  "name": "ElevenDine",
+  "description": "A collaborative food expense calculator for a group of 12 friends with individual monthly tracking and shared expense splitting.",
+  "requestFramePermissions": []
+}
