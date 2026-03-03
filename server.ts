@@ -3,9 +3,23 @@ import { createServer as createViteServer } from "vite";
 import Database from "better-sqlite3";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const db = new Database("food_expense.db");
+
+// Render.com persistent disk path is usually /data
+// We check if /data exists and is writable, otherwise use local directory
+const dbDir = process.env.NODE_ENV === "production" ? "/data" : __dirname;
+const dbPath = path.join(dbDir, "food_expense.db");
+
+// Ensure the directory exists if we're not on Render's root /data
+if (process.env.NODE_ENV !== "production" || !fs.existsSync("/data")) {
+  // Local development or fallback
+} else {
+  console.log("Using persistent storage at /data");
+}
+
+const db = new Database(dbPath);
 
 // Initialize Database
 db.exec(`
